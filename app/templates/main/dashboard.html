@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Habit Quest{% endblock %}
+
+{% block content %}
+<h1>Habit Quest Dashboard</h1>
+<p>Hello, {{ user.email }}!</p>
+<p>Your XP: {{ user.xp }} | Level: {{ user.level }}</p>
+
+<nav>
+    <a href="{{ url_for('main.home') }}">Home</a> |
+    <a href="{{ url_for('auth.logout') }}">Logout</a>
+</nav>
+
+<!-- Future: add habit stats, charts, and streaks here -->
+{% endblock %}
+
