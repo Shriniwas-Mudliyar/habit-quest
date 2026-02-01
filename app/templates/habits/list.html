@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Your Habits</h2>
+
+<a href="{{ url_for('habits.create_habit') }}" class="btn btn-success mb-3">
+    + New Habit
+</a>
+
+<ul class="list-group">
+{% for habit in habits %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+
+        <span>
+            {{ habit.name }}
+            {% if habit.id in completed_today %}
+                <span class="badge bg-success ms-2">Completed</span>
+            {% endif %}
+        </span>
+
+        <div class="d-flex gap-2">
+
+            <!-- COMPLETE FORM -->
+            <form method="POST"
+                  action="{{ url_for('habits.complete_habit', habit_id=habit.id) }}">
+		    <button class="btn btn-sm btn-primary">Complete</button>
+            </form>
+
+            <!-- DELETE FORM -->
+            <form method="POST"
+                  action="{{ url_for('habits.delete_habit', habit_id=habit.id) }}">
+		    <button class="btn btn-sm btn-danger">Delete</button>
+            </form>
+
+        </div>
+    </li>
+{% endfor %}
+</ul>
+
+{% endblock %}
+

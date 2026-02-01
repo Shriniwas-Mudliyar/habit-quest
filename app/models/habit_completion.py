@@ -8,6 +8,6 @@ class HabitCompletion(db.Model):
     date = db.Column(db.Date, default=date.today, nullable=False)
 
     __table_args__ = (
-        db.UniqueConstraint("habit_id", "date", name="unique_habit_per_day"),
+        db.UniqueConstraint("habit_id", "date", name="unique_habit_completion_per_day"),
     )
 
