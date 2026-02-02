@@ -1,15 +1,15 @@
-{% extends "base.html" %}
-{% block content %}
-<h2>Create New Habit</h2>
-<form method="POST">
-    {{ form.hidden_tag() }}
+<div class="mb-4">
+    <form method="POST" class="d-flex flex-column flex-md-row gap-2 align-items-start align-items-md-center">
+        {{ form.hidden_tag() }}
 
-    <div class="mb-3">
-        {{ form.name.label(class="form-label") }}
-        {{ form.name(class="form-control") }}
-    </div>
+        {{ form.name(
+            class="form-control flex-grow-1 mb-2 mb-md-0",
+            placeholder="✨ New habit name"
+        ) }}
 
-    <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
-</form>
-{% endblock %}
+        {{ form.submit(
+            class="btn btn-primary flex-shrink-0"
+        ) }}
+    </form>
+</div>
 

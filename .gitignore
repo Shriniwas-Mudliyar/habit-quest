@@ -1,6 +1,22 @@
-venv/
+# Python
 __pycache__/
 *.pyc
-.env
+*.pyo
+*.pyd
+*.sqlite3
+
+# Virtual environment
+venv/
+ENV/
+env/
+
+# Instance folder (Flask)
 instance/
+
+# Migrations
+migrations/__pycache__/
+
+# VSCode / IDE
+.vscode/
+.idea/
 

@@ -3,12 +3,20 @@
 {% block title %}Home - Habit Quest{% endblock %}
 
 {% block content %}
-<h1>Welcome, {{ user.email }}!</h1>
-<p>Your XP: {{ user.xp }} | Level: {{ user.level }}</p>
+<div class="container mt-4">
 
-<nav>
-    <a href="{{ url_for('main.dashboard') }}">Dashboard</a> |
-    <a href="{{ url_for('auth.logout') }}">Logout</a>
-</nav>
+    <!-- Welcome Header -->
+    <div class="card shadow-sm p-4 mb-4">
+        <h1 class="display-6 fw-bold text-primary mb-2">Welcome, {{ user.email }}!</h1>
+        <p class="mb-0">Level: <span class="fw-semibold">{{ user.level }}</span> | XP: <span class="fw-semibold">{{ user.xp }}</span></p>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="d-flex gap-2">
+        <a href="{{ url_for('main.dashboard') }}" class="btn btn-primary">Dashboard</a>
+        <a href="{{ url_for('auth.logout') }}" class="btn btn-warning">Logout</a>
+    </div>
+
+</div>
 {% endblock %}
 

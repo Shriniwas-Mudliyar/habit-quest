@@ -1,17 +1,67 @@
 {% extends "base.html" %}
-
-{% block title %}Dashboard - Habit Quest{% endblock %}
+{% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<h1>Habit Quest Dashboard</h1>
-<p>Hello, {{ user.email }}!</p>
-<p>Your XP: {{ user.xp }} | Level: {{ user.level }}</p>
+<div class="container mt-4">
 
-<nav>
-    <a href="{{ url_for('main.home') }}">Home</a> |
-    <a href="{{ url_for('auth.logout') }}">Logout</a>
-</nav>
+    <!-- Welcome Header -->
+    <h1 class="display-6 fw-bold text-primary mb-4">Welcome, {{ current_user.email }}!</h1>
 
-<!-- Future: add habit stats, charts, and streaks here -->
+    <!-- Level & XP Card -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="fw-semibold">Level {{ current_user.level }}</span>
+                <span class="fw-semibold">{{ current_user.total_xp or 0 }} XP</span>
+            </div>
+            <div class="progress" style="height: 25px;">
+                <div id="xp-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width:0%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Habits Summary -->
+    <h2 class="h5 fw-bold text-primary mb-3">Your Habits</h2>
+
+    {% if habits %}
+    <div class="row g-3">
+        {% for habit in habits %}
+        <div class="col-12 col-md-6">
+            <div class="card shadow-sm p-3 d-flex justify-content-between align-items-center">
+                <span class="fw-medium">{{ habit.name }}</span>
+
+                {% if habit.completed_today %}
+                <button class="btn btn-secondary btn-sm" disabled>Completed</button>
+                {% else %}
+                <form action="{{ url_for('habits.complete_habit', habit_id=habit.id) }}" method="POST" class="mb-0">
+                    <button type="submit" class="btn btn-success btn-sm">Complete</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="card shadow-sm p-4 text-center text-muted">
+        You have no habits yet. Start by creating one!
+    </div>
+    {% endif %}
+
+</div>
+
+<!-- Animate XP Bar -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const xpBar = document.getElementById("xp-bar");
+    const xp = {{ current_user.total_xp or 0 }};
+    const xpForNextLevel = 100; // 100 XP per level
+    const progress = Math.min((xp % xpForNextLevel) / xpForNextLevel * 100, 100);
+
+    setTimeout(() => {
+        xpBar.style.width = progress + "%";
+    }, 100);
+});
+</script>
+
 {% endblock %}
 

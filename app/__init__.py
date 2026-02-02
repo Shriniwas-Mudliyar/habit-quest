@@ -11,24 +11,25 @@ def create_app():
     migrate.init_app(app, db)
     login_manager.init_app(app)
 
-    # Flask-Login user loader
+    # Import all models here to ensure relationships are registered
     from app.models.user import User
+    from app.models.habit import Habit
+    from app.models.habit_completion import HabitCompletion
+    from app.models.xp_log import XpLog
 
+    # Flask-Login user loader
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
 
-    # Import models so migrations see them
-    from app import models  # noqa: F401
-
     # Register blueprints
     from .main import main_bp
     from .auth import auth_bp
-    from .habits.routes import habits_bp   # ✅ IMPORT ONCE, FROM routes
+    from .habits.routes import habits_bp
 
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp)
-    app.register_blueprint(habits_bp)      # ❌ NO url_prefix here
+    app.register_blueprint(habits_bp, url_prefix="/habits")
 
     return app
 
