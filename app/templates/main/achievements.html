@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}All Achievements{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <h1 class="display-6 fw-bold text-primary mb-4">All Achievements</h1>
+
+    <!-- Filter Buttons -->
+    <div class="mb-3 d-flex flex-wrap gap-2">
+        <button class="btn btn-sm btn-outline-primary filter-btn active" data-type="all">All</button>
+        <button class="btn btn-sm btn-outline-success filter-btn" data-type="completion">Completion</button>
+        <button class="btn btn-sm btn-outline-warning filter-btn" data-type="streak">Streak</button>
+        <button class="btn btn-sm btn-outline-info filter-btn" data-type="xp">XP</button>
+        <button class="btn btn-sm btn-outline-secondary filter-btn" data-type="level">Level</button>
+    </div>
+
+    <!-- Achievements Grid -->
+    <div class="row g-3">
+        {% for ua in achievements %}
+        <div
+            class="col-12 col-md-6 col-lg-4 achievement-card new-achievement"
+            data-type="{{ ua.achievement.type|lower }}"
+            data-tier="{{ ua.achievement.tier|lower if ua.achievement.tier else 'none' }}"
+        >
+            <div class="card achievement-item shadow-sm p-3 h-100">
+
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <span class="fw-bold d-flex align-items-center gap-2">
+                        {% if ua.achievement.icon %}
+                            <span class="achievement-icon">{{ ua.achievement.icon }}</span>
+                        {% endif %}
+                        {{ ua.achievement.name }}
+                    </span>
+
+                    <!-- Tier Badge -->
+                    <span class="badge tier-badge tier-{{ ua.achievement.tier|lower if ua.achievement.tier else 'none' }}">
+                        {{ ua.achievement.tier or 'None' }}
+                    </span>
+                </div>
+
+                <!-- Description -->
+                <p class="text-muted mb-2">
+                    {{ ua.achievement.description }}
+                </p>
+
+                <!-- Footer -->
+                <small class="text-muted">
+                    Unlocked on {{ ua.unlocked_at.strftime('%d %b %Y') }}
+                </small>
+
+            </div>
+        </div>
+        {% else %}
+        <p class="text-muted">No achievements unlocked yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Page-specific JS -->
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Filter Buttons
+    const buttons = document.querySelectorAll(".filter-btn");
+    const cards = document.querySelectorAll(".achievement-card");
+
+    buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const type = btn.dataset.type;
+
+            buttons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            cards.forEach(card => {
+                card.style.display =
+                    type === "all" || card.dataset.type === type
+                        ? "block"
+                        : "none";
+            });
+        });
+    });
+
+    // Trigger achievement unlock effect for all visible achievements
+    if (cards.length) {
+        window.triggerAchievementUnlock();
+    }
+});
+</script>
+
+{% endblock %}
+

@@ -1,0 +1,254 @@
+/* =========================================================
+   Global Theme Variables
+   ========================================================= */
+:root {
+    --bg-main: #f8f9fa;
+    --bg-card: #ffffff;
+    --text-main: #333;
+    --text-muted: #6c757d;
+    --primary: #0d6efd;
+
+    /* Achievement Pill Colors */
+    --ach-xp-bg: #d0e7ff;
+    --ach-xp-color: #0d6efd;
+    --ach-streak-bg: #ffe5d0;
+    --ach-streak-color: #dc3545;
+    --ach-level-bg: #f0e5ff;
+    --ach-level-color: #6f42c1;
+    --ach-default-bg: #e5e5e5;
+    --ach-default-color: #333;
+}
+
+/* Dark Mode */
+body[data-theme="dark"] {
+    --bg-main: #0f172a;
+    --bg-card: #1e293b;
+    --text-main: #e5e7eb;
+    --text-muted: #9ca3af;
+    --primary: #38bdf8;
+
+    --ach-xp-bg: rgba(13, 110, 253, 0.15);
+    --ach-xp-color: #0d6efd;
+    --ach-streak-bg: rgba(220, 53, 69, 0.15);
+    --ach-streak-color: #dc3545;
+    --ach-level-bg: rgba(111, 66, 193, 0.15);
+    --ach-level-color: #6f42c1;
+    --ach-default-bg: rgba(128,128,128,0.15);
+    --ach-default-color: #e5e7eb;
+}
+
+/* =========================================================
+   Global Body & Typography
+   ========================================================= */
+body {
+    font-family: "Inter", "Segoe UI", Helvetica, Arial, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--primary);
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* =========================================================
+   Navbar
+   ========================================================= */
+.navbar {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.nav-link {
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav-link:hover {
+    color: #ffc107;
+}
+
+/* =========================================================
+   Cards
+   ========================================================= */
+.card {
+    border-radius: 0.75rem;
+    background-color: var(--bg-card);
+    color: var(--text-main);
+    transition: transform 0.25s ease, box-shadow 0.25s ease,
+                background-color 0.3s ease, color 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+/* =========================================================
+   Buttons
+   ========================================================= */
+.btn {
+    font-weight: 600;
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+/* =========================================================
+   XP Progress Bar
+   ========================================================= */
+.progress {
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.progress-bar {
+    border-radius: 1rem;
+}
+
+/* =========================================================
+   Badge Base (used by streaks only)
+   ========================================================= */
+.badge {
+    font-size: 0.8rem;
+    padding: 0.35em 0.6em;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+/* =========================================================
+   Achievement Pills
+   ========================================================= */
+.achievement-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.8rem;
+    border-radius: 0.6rem;
+    font-weight: 600;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+    cursor: default;
+}
+
+.achievement-pill .achievement-icon {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+/* Achievement type-based colors */
+.achievement-pill[data-type="xp"] {
+    background-color: var(--ach-xp-bg);
+    color: var(--ach-xp-color);
+}
+
+.achievement-pill[data-type="streak"] {
+    background-color: var(--ach-streak-bg);
+    color: var(--ach-streak-color);
+}
+
+.achievement-pill[data-type="level"] {
+    background-color: var(--ach-level-bg);
+    color: var(--ach-level-color);
+}
+
+.achievement-pill[data-type="default"] {
+    background-color: var(--ach-default-bg);
+    color: var(--ach-default-color);
+}
+
+/* Hover effect */
+.achievement-pill:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Centering container */
+.d-flex.justify-content-center {
+    justify-content: center !important;
+}
+
+/* =========================================================
+   Habit Streak Badges
+   ========================================================= */
+.badge.streak {
+    font-weight: 600;
+}
+
+/* Bronze */
+.badge.streak.bg-warning {
+    background: linear-gradient(135deg, #cd7f32, #b87333);
+    color: #fff;
+    box-shadow: 0 0 8px rgba(205,127,50,0.6);
+}
+
+/* Silver */
+.badge.streak.bg-secondary {
+    background: linear-gradient(135deg, #c0c0c0, #a8a8a8);
+    color: #111;
+    box-shadow: 0 0 10px rgba(192,192,192,0.7);
+}
+
+/* Gold */
+.badge.streak.bg-danger {
+    background: linear-gradient(135deg, #ffd700, #ffb700);
+    color: #111;
+    box-shadow: 0 0 14px rgba(255,215,0,0.9);
+    animation: gold-glow 2.5s infinite ease-in-out;
+}
+
+@keyframes gold-glow {
+    0%, 100% { box-shadow: 0 0 12px rgba(255,215,0,0.7); }
+    50% { box-shadow: 0 0 20px rgba(255,215,0,1); }
+}
+
+/* =========================================================
+   Achievement Unlock Animation
+   ========================================================= */
+.new-achievement {
+    animation: unlock-pop 0.6s ease-out;
+}
+
+.achievement-pulse {
+    animation: pulse 1.2s ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 rgba(255,215,0,0); }
+    50% { transform: scale(1.1); box-shadow: 0 0 12px rgba(255,215,0,0.6); }
+    100% { transform: scale(1); box-shadow: 0 0 0 rgba(255,215,0,0); }
+}
+
+/* =========================================================
+   Flash Messages
+   ========================================================= */
+.alert {
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* =========================================================
+   Utilities
+   ========================================================= */
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+@media (max-width: 768px) {
+    h1 { font-size: 1.5rem; }
+}
+

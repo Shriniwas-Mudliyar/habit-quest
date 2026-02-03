@@ -1,5 +1,6 @@
 from datetime import datetime
 from app import db
+from datetime import datetime, date
 
 class Habit(db.Model):
     __tablename__ = "habit"
@@ -13,6 +14,11 @@ class Habit(db.Model):
     )
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    # Streak tracking
+    current_streak = db.Column(db.Integer, default=0, nullable=False)
+    longest_streak = db.Column(db.Integer, default=0, nullable=False)
+    last_completed_date = db.Column(db.Date)
+
 
     # Relationships
     user = db.relationship("User", back_populates="habits")
