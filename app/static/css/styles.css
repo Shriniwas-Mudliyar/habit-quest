@@ -33,17 +33,17 @@ body[data-theme="dark"] {
     --text-muted: #9ca3af;
     --primary: #38bdf8;
 
-    --ach-xp-bg: rgba(13, 110, 253, 0.15);
-    --ach-xp-color: #0d6efd;
-    --ach-streak-bg: rgba(220, 53, 69, 0.15);
-    --ach-streak-color: #dc3545;
-    --ach-level-bg: rgba(111, 66, 193, 0.15);
-    --ach-level-color: #6f42c1;
-    --ach-default-bg: rgba(128,128,128,0.15);
-    --ach-default-color: #e5e7eb;
+    --ach-xp-bg: rgba(13, 110, 253, 0.35);
+    --ach-xp-color: #ffffff;
+    --ach-streak-bg: rgba(220, 53, 69, 0.35);
+    --ach-streak-color: #ffffff;
+    --ach-level-bg: rgba(111, 66, 193, 0.35);
+    --ach-level-color: #ffffff;
+    --ach-default-bg: rgba(128,128,128,0.35);
+    --ach-default-color: #ffffff;
 
-    --top3-bg: rgba(255, 215, 0, 0.1);
-    --top3-border: rgba(255, 215, 0, 0.25);
+    --top3-bg: rgba(255, 215, 0, 0.35);
+    --top3-border: rgba(255, 215, 0, 0.6);
 }
 
 /* =========================================================
@@ -178,6 +178,7 @@ a:hover {
     line-height: 1;
 }
 
+/* Achievement Types */
 .achievement-pill[data-type="xp"] { background-color: var(--ach-xp-bg); color: var(--ach-xp-color); }
 .achievement-pill[data-type="streak"] { background-color: var(--ach-streak-bg); color: var(--ach-streak-color); }
 .achievement-pill[data-type="level"] { background-color: var(--ach-level-bg); color: var(--ach-level-color); }
@@ -187,6 +188,14 @@ a:hover {
 .achievement-pill.top-3 {
     background-color: var(--top3-bg);
     border: 1px solid var(--top3-border);
+    color: #111; 
+    font-weight: 700;
+    text-shadow: none;
+}
+
+body[data-theme="dark"] .achievement-pill.top-3 {
+    color: #1a1a1a;
+    text-shadow: none;
 }
 
 .achievement-pill:hover {

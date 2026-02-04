@@ -23,10 +23,10 @@
         <div
             class="col-12 col-md-6 col-lg-4 achievement-card new-achievement"
             data-type="{{ ua.achievement.type|lower }}"
-            data-tier="{{ ua.achievement.tier|lower if ua.achievement.tier else 'none' }}"
+            data-tier="{{ ua.achievement.tier|lower if ua.achievement.tier else '' }}"
         >
             <div class="card achievement-item shadow-sm p-3 h-100 d-flex flex-column justify-content-between
-                        {% if loop.index <= 3 %} bg-warning-subtle border-warning {% endif %}">
+                        {% if loop.index <= 3 %} achievement-pill top-3 {% endif %}">
 
                 <!-- Header -->
                 <div class="d-flex justify-content-between align-items-start mb-2 flex-wrap">
@@ -38,9 +38,11 @@
                     </span>
 
                     <!-- Tier Badge -->
-                    <span class="badge tier-badge tier-{{ ua.achievement.tier|lower if ua.achievement.tier else 'none' }} mt-1 mt-md-0">
-                        {{ ua.achievement.tier or 'None' }}
+                    {% if ua.achievement.tier %}
+                    <span class="badge tier-badge tier-{{ ua.achievement.tier|lower }} mt-1 mt-md-0">
+                        {{ ua.achievement.tier }}
                     </span>
+                    {% endif %}
                 </div>
 
                 <!-- Description -->
