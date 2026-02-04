@@ -3,10 +3,10 @@
 {% block title %}Register - Habit Quest{% endblock %}
 
 {% block content %}
-<div class="container mt-5" style="max-width: 400px;">
+<div class="container d-flex justify-content-center align-items-start" style="min-height: 75vh; padding-top: 2rem;">
 
-    <div class="card shadow-sm p-4">
-        <h2 class="fw-bold text-primary mb-3 text-center">Create your account</h2>
+    <div class="card shadow-sm p-4 w-100" style="max-width: 400px;">
+        <h2 class="fw-bold text-primary mb-4 text-center">Create your account</h2>
 
         <form method="POST">
             {{ form.hidden_tag() }}
@@ -16,7 +16,8 @@
                 {{ form.display_name.label(class_="form-label") }}
                 {{ form.display_name(
                     class_="form-control",
-                    placeholder="What should we call you?"
+                    placeholder="What should we call you?",
+                    autofocus=True
                 ) }}
             </div>
 
@@ -40,16 +41,25 @@
 
             <!-- Submit Button -->
             <div class="d-grid">
-                {{ form.submit(class_="btn btn-primary") }}
+                {{ form.submit(class_="btn btn-primary btn-lg") }}
             </div>
-
         </form>
 
-        <p class="text-center mt-3">
-            Already have an account? <a href="{{ url_for('auth.login') }}">Login</a>
+        <p class="text-center mt-3 small">
+            Already have an account? <a href="{{ url_for('auth.login') }}">Login here</a>
         </p>
     </div>
 
 </div>
+
+<style>
+/* Mobile adjustments */
+@media (max-width: 576px) {
+    .card {
+        padding: 1.5rem !important;
+        margin: 1rem;
+    }
+}
+</style>
 {% endblock %}
 

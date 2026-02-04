@@ -2,7 +2,7 @@
 {% block title %}Habit Quest{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
+<div class="container mt-3 pb-5"> <!-- added padding-bottom -->
 
     <!-- Header -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
@@ -15,17 +15,17 @@
             </p>
         </div>
 
-        <span class="badge bg-primary fs-6 px-3 py-2 rounded-pill">
+        <span class="badge bg-primary fs-6 px-3 py-2 rounded-pill mt-2 mt-md-0">
             Level {{ current_user.level }}
         </span>
     </div>
 
-    <!-- XP Card (MATCHES DASHBOARD) -->
+    <!-- XP Card -->
     <div class="card shadow-sm mb-4">
         <div class="card-body">
 
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <div class="d-flex align-items-center gap-2">
+            <div class="d-flex justify-content-between align-items-center mb-2 flex-column flex-md-row">
+                <div class="d-flex align-items-center gap-2 mb-2 mb-md-0">
                     <span class="badge bg-primary fs-6 px-3 py-2 rounded-pill">
                         Level {{ current_user.level }}
                     </span>
@@ -51,7 +51,7 @@
                     </div>
                 </div>
 
-                <div class="xp-label">
+                <div class="xp-label text-end small">
                     {{ (current_user.total_xp or 0) % 100 }} / 100 XP
                 </div>
             </div>
@@ -64,10 +64,10 @@
         <div class="card-body">
             <form method="POST"
                   action="{{ url_for('habits.list_habits') }}"
-                  class="d-flex flex-column flex-md-row gap-2">
+                  class="d-flex flex-column flex-sm-row gap-2">
                 {{ form.hidden_tag() }}
                 {{ form.name(
-                    class_="form-control me-md-2 mb-2 mb-md-0",
+                    class_="form-control flex-grow-1 mb-2 mb-sm-0 text-truncate",
                     placeholder="New habit"
                 ) }}
                 <button type="submit" class="btn btn-primary flex-shrink-0">
@@ -80,7 +80,7 @@
     <!-- Habits List -->
     {% if not habits %}
         <div class="card shadow-sm p-4 text-center text-muted">
-            You don’t have any habits yet. Start your first one above!
+            You don't have any habits yet. Start your first one above!
         </div>
     {% else %}
         <div class="row g-3">
@@ -90,9 +90,9 @@
                             justify-content-between align-items-start align-items-md-center">
 
                     <!-- Habit Info -->
-                    <div>
-                        <div class="d-flex align-items-center gap-2">
-                            <h5 class="fw-semibold mb-0">{{ habit.name }}</h5>
+                    <div class="mb-2 mb-md-0 text-truncate" style="max-width: 60%;">
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <h5 class="fw-semibold mb-0 text-truncate" title="{{ habit.name }}">{{ habit.name }}</h5>
 
                             {% if habit.current_streak > 0 %}
                             <span class="badge
@@ -110,21 +110,21 @@
                     </div>
 
                     <!-- Actions -->
-                    <div class="d-flex gap-2 mt-2 mt-md-0">
+                    <div class="d-flex gap-2 flex-column flex-md-row mt-2 mt-md-0">
                         <form method="POST"
                               action="{{ url_for('habits.complete_habit', habit_id=habit.id) }}"
-                              class="habit-complete-form">
+                              class="habit-complete-form flex-grow-1 flex-md-grow-0">
                             <button type="submit"
-                                    class="btn {% if habit.completed_today %}
-                                    btn-secondary disabled{% else %}btn-success{% endif %}">
+                                    class="btn {% if habit.completed_today %}btn-secondary disabled{% else %}btn-success{% endif %} w-100 w-md-auto">
                                 {% if habit.completed_today %}Completed{% else %}Complete{% endif %}
                             </button>
                         </form>
 
                         <form method="POST"
                               action="{{ url_for('habits.delete_habit', habit_id=habit.id) }}"
-                              onsubmit="return confirm('Delete this habit?');">
-                            <button type="submit" class="btn btn-danger">
+                              onsubmit="return confirm('Delete this habit?');"
+                              class="flex-shrink-0">
+                            <button type="submit" class="btn btn-danger w-100 w-md-auto">
                                 Delete
                             </button>
                         </form>

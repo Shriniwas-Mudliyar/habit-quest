@@ -6,10 +6,7 @@
     <title>{% block title %}Habit Quest{% endblock %}</title>
 
     <!-- Bootstrap CSS -->
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
@@ -18,35 +15,42 @@
 <body data-theme="light">
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand navbar-dark bg-primary fixed-top shadow-sm">
-    <div class="container">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-sm" role="navigation">
+    <div class="container-fluid">
         <a class="navbar-brand fw-bold" href="{{ url_for('main.home') }}">Habit Quest</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <ul class="navbar-nav ms-auto align-items-center gap-2">
-            {% if current_user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('habits.list_habits') }}">Habits</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('main.view_achievements') }}">Achievements</a></li>
-            {% endif %}
+        <!-- Navbar links: always visible on desktop -->
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav ms-auto align-items-center gap-2 mt-2 mt-lg-0 flex-column flex-lg-row">
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('habits.list_habits') }}">Habits</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.view_achievements') }}">Achievements</a></li>
+                {% endif %}
 
-            <li class="nav-item">
-                <button id="theme-toggle" class="btn btn-sm btn-outline-light ms-2" type="button" aria-label="Toggle dark mode">
-                    Light Mode
-                </button>
-            </li>
+                <li class="nav-item">
+                    <button id="theme-toggle" class="btn btn-sm btn-outline-light ms-2 mt-2 mt-lg-0" type="button" aria-label="Toggle dark mode">
+                        Dark Mode
+                    </button>
+                </li>
 
-            {% if current_user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link text-warning" href="{{ url_for('auth.logout') }}">Logout</a></li>
-            {% else %}
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>
-            {% endif %}
-        </ul>
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link text-warning mt-2 mt-lg-0" href="{{ url_for('auth.logout') }}">Logout</a></li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link mt-2 mt-lg-0" href="{{ url_for('auth.login') }}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link mt-2 mt-lg-0" href="{{ url_for('auth.register') }}">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
     </div>
 </nav>
 
 <!-- Flash messages -->
-<div class="container mt-5 pt-3">
+<div class="container mt-3 pt-3">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
@@ -59,8 +63,8 @@
     {% endwith %}
 </div>
 
-<!-- Page content -->
-<div class="container mt-4">{% block content %}{% endblock %}</div>
+<!-- Page content: remove extra top spacing -->
+<div class="container mt-2">{% block content %}{% endblock %}</div>
 
 <!-- Audio Elements -->
 <audio id="achievement-sound" preload="auto">
@@ -83,25 +87,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const body = document.body;
     const savedTheme = localStorage.getItem("theme") || "light";
 
+    // Apply saved theme
     body.setAttribute("data-theme", savedTheme);
-    toggleBtn.textContent = savedTheme === "dark" ? "Dark Mode" : "Light Mode";
+    toggleBtn.textContent = savedTheme === "dark" ? "Light Mode" : "Dark Mode";
 
+    // Theme toggle
     toggleBtn.addEventListener("click", () => {
         const next = body.getAttribute("data-theme") === "dark" ? "light" : "dark";
         body.setAttribute("data-theme", next);
         localStorage.setItem("theme", next);
-        toggleBtn.textContent = next === "dark" ? "Dark Mode" : "Light Mode";
+        toggleBtn.textContent = next === "dark" ? "Light Mode" : "Dark Mode";
     });
 
-    // Ensure all habit forms trigger effects
+    // Habit completion forms
     document.querySelectorAll(".habit-complete-form").forEach(form => {
         form.addEventListener("submit", () => window.triggerHabitCompletionEffects());
     });
 });
 
-/* ==============================
-   Habit Completion + Achievement Effects
-   ============================== */
 function triggerHabitCompletionEffects() {
     const habitSound = document.getElementById("habit-complete-sound");
     if (habitSound) { habitSound.currentTime = 0; habitSound.play().catch(() => {}); }

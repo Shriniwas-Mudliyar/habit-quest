@@ -3,36 +3,47 @@
 {% block title %}Home - Habit Quest{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
+<div class="container mt-2 px-2">
 
     <!-- Welcome Header -->
     <div class="card shadow-sm p-4 mb-4">
         <h1 class="display-6 fw-bold text-primary mb-2">
-            Welcome back, {{ current_user.display_name }} 👋
+            Welcome back, {{ current_user.display_name }}!
         </h1>
 
         <p class="mb-2">
             Level <span class="fw-semibold">{{ current_user.level }}</span>
-            &mdash; XP <span class="fw-semibold">{{ current_user.total_xp }}</span>
+            &mdash; XP <span class="fw-semibold">{{ current_user.total_xp or 0 }}</span>
         </p>
 
         <!-- Daily Quote with fade-in animation -->
+        {% if quote %}
         <p class="text-muted mb-0 fst-italic quote-animate">
-            {{ quote }}
+            "{{ quote }}"
         </p>
+        {% endif %}
     </div>
 
     <!-- Primary Actions -->
-    <div class="d-flex gap-2">
-        <a href="{{ url_for('main.dashboard') }}" class="btn btn-primary">
+    <div class="d-flex gap-2 flex-column flex-sm-row">
+        <a href="{{ url_for('main.dashboard') }}" class="btn btn-primary flex-grow-1 text-center">
             View Dashboard
         </a>
-        <a href="{{ url_for('auth.logout') }}" class="btn btn-warning">
+        <a href="{{ url_for('auth.logout') }}" class="btn btn-warning flex-grow-1 text-center">
             Logout
         </a>
     </div>
 
 </div>
+
+<style>
+/* Ensure mobile spacing and reduce empty top space */
+@media (max-width: 576px) {
+    .card {
+        padding: 1.5rem !important;
+    }
+}
+</style>
 
 <!-- Optional JS for slight delay on quote fade-in -->
 <script>
@@ -41,9 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (quote) {
         quote.style.opacity = 0;
         quote.style.transition = "opacity 1s ease-in-out";
-        setTimeout(() => {
-            quote.style.opacity = 1;
-        }, 300);
+        setTimeout(() => { quote.style.opacity = 1; }, 300);
     }
 });
 </script>

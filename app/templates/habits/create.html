@@ -1,15 +1,31 @@
 <div class="mb-4">
-    <form method="POST" class="d-flex flex-column flex-md-row gap-2 align-items-start align-items-md-center">
+    <form method="POST" class="d-flex flex-column flex-md-row gap-2 align-items-stretch align-items-md-center">
         {{ form.hidden_tag() }}
 
+        <!-- Habit Name Input -->
         {{ form.name(
             class="form-control flex-grow-1 mb-2 mb-md-0",
             placeholder="✨ New habit name"
         ) }}
 
+        <!-- Submit Button -->
         {{ form.submit(
             class="btn btn-primary flex-shrink-0"
         ) }}
     </form>
 </div>
+
+<style>
+/* Mobile adjustments */
+@media (max-width: 576px) {
+    form.d-flex {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+    }
+
+    form.d-flex .btn {
+        width: 100%;
+    }
+}
+</style>
 

@@ -2,12 +2,14 @@
 {% block title %}All Achievements{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
+<div class="container mt-2 px-2">
 
-    <h1 class="display-6 fw-bold text-primary mb-4">All Achievements</h1>
+    <h1 class="display-6 fw-bold text-primary mb-4 text-center text-md-start">
+        All Achievements
+    </h1>
 
     <!-- Filter Buttons -->
-    <div class="mb-3 d-flex flex-wrap gap-2">
+    <div class="mb-3 d-flex flex-wrap gap-2 justify-content-center justify-content-md-start">
         <button class="btn btn-sm btn-outline-primary filter-btn active" data-type="all">All</button>
         <button class="btn btn-sm btn-outline-success filter-btn" data-type="completion">Completion</button>
         <button class="btn btn-sm btn-outline-warning filter-btn" data-type="streak">Streak</button>
@@ -23,10 +25,11 @@
             data-type="{{ ua.achievement.type|lower }}"
             data-tier="{{ ua.achievement.tier|lower if ua.achievement.tier else 'none' }}"
         >
-            <div class="card achievement-item shadow-sm p-3 h-100">
+            <div class="card achievement-item shadow-sm p-3 h-100 d-flex flex-column justify-content-between
+                        {% if loop.index <= 3 %} bg-warning-subtle border-warning {% endif %}">
 
                 <!-- Header -->
-                <div class="d-flex justify-content-between align-items-start mb-2">
+                <div class="d-flex justify-content-between align-items-start mb-2 flex-wrap">
                     <span class="fw-bold d-flex align-items-center gap-2">
                         {% if ua.achievement.icon %}
                             <span class="achievement-icon">{{ ua.achievement.icon }}</span>
@@ -35,25 +38,25 @@
                     </span>
 
                     <!-- Tier Badge -->
-                    <span class="badge tier-badge tier-{{ ua.achievement.tier|lower if ua.achievement.tier else 'none' }}">
+                    <span class="badge tier-badge tier-{{ ua.achievement.tier|lower if ua.achievement.tier else 'none' }} mt-1 mt-md-0">
                         {{ ua.achievement.tier or 'None' }}
                     </span>
                 </div>
 
                 <!-- Description -->
-                <p class="text-muted mb-2">
+                <p class="text-muted mb-2 small">
                     {{ ua.achievement.description }}
                 </p>
 
                 <!-- Footer -->
-                <small class="text-muted">
+                <small class="text-muted text-end d-block mt-auto">
                     Unlocked on {{ ua.unlocked_at.strftime('%d %b %Y') }}
                 </small>
 
             </div>
         </div>
         {% else %}
-        <p class="text-muted">No achievements unlocked yet.</p>
+        <p class="text-muted text-center w-100">No achievements unlocked yet.</p>
         {% endfor %}
     </div>
 </div>
