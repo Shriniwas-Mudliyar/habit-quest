@@ -6,29 +6,47 @@
 
     <!-- Welcome Header -->
     <h1 class="display-6 fw-bold text-primary mb-4">
-        Welcome, {{ current_user.email }}!
+        Welcome, {{ current_user.display_name }}!
     </h1>
 
     <!-- Level & XP Card -->
     <div class="card shadow-sm mb-4">
-        <div class="card-body d-flex justify-content-between align-items-center">
-            <span class="fw-semibold {% if request.cookies.get('theme') == 'dark' %}text-light{% endif %}">
-                Level {{ current_user.level }}
-            </span>
-            <span class="fw-semibold {% if request.cookies.get('theme') == 'dark' %}text-light{% endif %}">
-                {{ current_user.total_xp or 0 }} XP
-            </span>
-        </div>
+        <div class="card-body">
 
-        <div class="progress xp-progress" style="height: 25px;">
-            <div
-                id="xp-bar"
-                class="progress-bar progress-bar-striped progress-bar-animated"
-                role="progressbar"
-                data-xp="{{ current_user.total_xp or 0 }}"
-                data-xp-per-level="100"
-                style="width:0%">
+            <!-- Level Header -->
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-primary fs-6 px-3 py-2 rounded-pill">
+                        Level {{ current_user.level }}
+                    </span>
+                    <span class="text-muted small">
+                        Progress to next level
+                    </span>
+                </div>
+
+                <span class="fw-semibold text-muted">
+                    {{ current_user.total_xp or 0 }} XP
+                </span>
             </div>
+
+            <!-- XP Progress -->
+            <div class="xp-wrapper">
+                <div class="progress xp-progress">
+                    <div
+                        id="xp-bar"
+                        class="progress-bar xp-bar-fill"
+                        role="progressbar"
+                        data-xp="{{ current_user.total_xp or 0 }}"
+                        data-xp-per-level="100"
+                        style="width: 0%">
+                    </div>
+                </div>
+
+                <div class="xp-label">
+                    {{ (current_user.total_xp or 0) % 100 }} / 100 XP
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -57,10 +75,10 @@
                     "
                 >
                     <span class="achievement-icon me-1">
-                        {% if ua.achievement.type == 'xp' %}💎
+                        {% if ua.achievement.type == 'xp' %}🏅
                         {% elif ua.achievement.type == 'streak' %}🔥
-                        {% elif ua.achievement.type == 'level' %}⭐
-                        {% else %}🏆{% endif %}
+                        {% elif ua.achievement.type == 'level' %}⬆️
+                        {% else %}✨{% endif %}
                     </span>
                     <span class="fw-semibold">{{ ua.achievement.name }}</span>
                 </div>
@@ -81,11 +99,11 @@
             <div class="card shadow-sm p-3 d-flex flex-column flex-md-row
                         justify-content-between align-items-start align-items-md-center">
 
-                <div class="{% if request.cookies.get('theme') == 'dark' %}text-light{% endif %}">
+                <div>
                     <span class="fw-medium">{{ habit.name }}</span>
 
                     {% if habit.current_streak > 0 %}
-                    <span class="badge streak
+                    <span class="badge
                         {% if habit.current_streak >= 7 %}bg-danger
                         {% elif habit.current_streak >= 3 %}bg-warning text-dark
                         {% else %}bg-info text-dark{% endif %} ms-2">
@@ -125,8 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const xp = parseInt(xpBar.dataset.xp || 0);
         const xpPerLevel = parseInt(xpBar.dataset.xpPerLevel || 100);
         const progress = Math.min((xp % xpPerLevel) / xpPerLevel * 100, 100);
-        xpBar.style.transition = "width 1s ease-in-out";
-        setTimeout(() => { xpBar.style.width = progress + "%"; }, 100);
+        setTimeout(() => { xpBar.style.width = progress + "%"; }, 150);
     }
 
     document.querySelectorAll(".habit-complete-form").forEach(form => {

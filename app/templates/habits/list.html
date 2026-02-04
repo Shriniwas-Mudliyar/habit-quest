@@ -7,34 +7,55 @@
     <!-- Header -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
         <div>
-            <h1 class="display-5 fw-bold text-primary {% if request.cookies.get('theme') == 'dark' %}text-light{% endif %}">
+            <h1 class="display-5 fw-bold text-primary">
                 Habit Quest
             </h1>
-            <p class="text-muted {% if request.cookies.get('theme') == 'dark' %}text-light{% endif %}">
+            <p class="text-muted">
                 Small wins, every single day
             </p>
         </div>
-        <div class="badge bg-light text-primary fs-6 p-3 shadow rounded {% if request.cookies.get('theme') == 'dark' %}text-dark{% endif %}">
+
+        <span class="badge bg-primary fs-6 px-3 py-2 rounded-pill">
             Level {{ current_user.level }}
-        </div>
+        </span>
     </div>
 
-    <!-- XP Card -->
-    <div class="card bg-primary text-white mb-4 shadow-sm">
+    <!-- XP Card (MATCHES DASHBOARD) -->
+    <div class="card shadow-sm mb-4">
         <div class="card-body">
-            <div class="d-flex justify-content-between fw-semibold mb-2">
-                <span>XP Progress</span>
-                <span>{{ current_user.total_xp or 0 }} XP</span>
+
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-primary fs-6 px-3 py-2 rounded-pill">
+                        Level {{ current_user.level }}
+                    </span>
+                    <span class="text-muted small">
+                        Progress to next level
+                    </span>
+                </div>
+
+                <span class="fw-semibold text-muted">
+                    {{ current_user.total_xp or 0 }} XP
+                </span>
             </div>
-            <div class="progress" style="height: 20px;">
-                <div id="xp-bar"
-                     class="progress-bar progress-bar-striped progress-bar-animated"
-                     role="progressbar"
-                     data-xp="{{ current_user.total_xp or 0 }}"
-                     data-xp-per-level="100"
-                     style="width:0%">
+
+            <div class="xp-wrapper">
+                <div class="progress xp-progress">
+                    <div
+                        id="xp-bar"
+                        class="progress-bar xp-bar-fill"
+                        role="progressbar"
+                        data-xp="{{ current_user.total_xp or 0 }}"
+                        data-xp-per-level="100"
+                        style="width: 0%">
+                    </div>
+                </div>
+
+                <div class="xp-label">
+                    {{ (current_user.total_xp or 0) % 100 }} / 100 XP
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -45,7 +66,10 @@
                   action="{{ url_for('habits.list_habits') }}"
                   class="d-flex flex-column flex-md-row gap-2">
                 {{ form.hidden_tag() }}
-                {{ form.name(class_="form-control me-md-2 mb-2 mb-md-0", placeholder="New habit") }}
+                {{ form.name(
+                    class_="form-control me-md-2 mb-2 mb-md-0",
+                    placeholder="New habit"
+                ) }}
                 <button type="submit" class="btn btn-primary flex-shrink-0">
                     Add Habit
                 </button>
@@ -55,50 +79,48 @@
 
     <!-- Habits List -->
     {% if not habits %}
-        <div class="alert alert-warning text-center rounded">
-            <p class="fw-semibold mb-1">No habits yet</p>
-            <small>Start your first habit above</small>
+        <div class="card shadow-sm p-4 text-center text-muted">
+            You don’t have any habits yet. Start your first one above!
         </div>
     {% else %}
         <div class="row g-3">
             {% for habit in habits %}
             <div class="col-12">
-                <div class="card shadow-sm p-3 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                <div class="card shadow-sm p-3 d-flex flex-column flex-md-row
+                            justify-content-between align-items-start align-items-md-center">
 
                     <!-- Habit Info -->
-                    <div class="{% if request.cookies.get('theme') == 'dark' %}text-light{% endif %}">
+                    <div>
                         <div class="d-flex align-items-center gap-2">
                             <h5 class="fw-semibold mb-0">{{ habit.name }}</h5>
 
                             {% if habit.current_streak > 0 %}
-                                <span class="badge streak
-                                    {% if habit.current_streak >= 7 %}bg-danger
-                                    {% elif habit.current_streak >= 3 %}bg-warning text-dark
-                                    {% else %}bg-info text-dark{% endif %} ms-2">
-                                    {{ habit.current_streak }}-day streak
-                                </span>
+                            <span class="badge
+                                {% if habit.current_streak >= 7 %}bg-danger
+                                {% elif habit.current_streak >= 3 %}bg-warning text-dark
+                                {% else %}bg-info text-dark{% endif %}">
+                                🔥 {{ habit.current_streak }}-day streak
+                            </span>
                             {% endif %}
                         </div>
 
-                        <small class="text-muted {% if request.cookies.get('theme') == 'dark' %}text-light{% endif %}">
+                        <small class="text-muted">
                             Created {{ habit.created_at.strftime('%d %b %Y') if habit.created_at else '-' }}
                         </small>
                     </div>
 
                     <!-- Actions -->
                     <div class="d-flex gap-2 mt-2 mt-md-0">
-
-                        <!-- Complete Button -->
                         <form method="POST"
                               action="{{ url_for('habits.complete_habit', habit_id=habit.id) }}"
                               class="habit-complete-form">
                             <button type="submit"
-                                    class="btn {% if habit.completed_today %}btn-secondary disabled{% else %}btn-success{% endif %}">
-                                {% if habit.completed_today %}Done{% else %}Complete{% endif %}
+                                    class="btn {% if habit.completed_today %}
+                                    btn-secondary disabled{% else %}btn-success{% endif %}">
+                                {% if habit.completed_today %}Completed{% else %}Complete{% endif %}
                             </button>
                         </form>
 
-                        <!-- Delete Button -->
                         <form method="POST"
                               action="{{ url_for('habits.delete_habit', habit_id=habit.id) }}"
                               onsubmit="return confirm('Delete this habit?');">
@@ -106,8 +128,8 @@
                                 Delete
                             </button>
                         </form>
-
                     </div>
+
                 </div>
             </div>
             {% endfor %}
@@ -116,22 +138,16 @@
 
 </div>
 
-<!-- Load shared dashboard JS for XP bar, confetti, and sounds -->
-<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
-
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    // XP bar animation
     const xpBar = document.getElementById("xp-bar");
     if (xpBar) {
         const xp = parseInt(xpBar.dataset.xp || 0);
         const xpPerLevel = parseInt(xpBar.dataset.xpPerLevel || 100);
         const progress = Math.min((xp % xpPerLevel) / xpPerLevel * 100, 100);
-        xpBar.style.transition = "width 1s ease-in-out";
-        setTimeout(() => { xpBar.style.width = progress + "%"; }, 100);
+        setTimeout(() => { xpBar.style.width = progress + "%"; }, 150);
     }
 
-    // Habit completion effects handled globally via base.html
     document.querySelectorAll(".habit-complete-form").forEach(form => {
         form.addEventListener("submit", () => window.triggerHabitCompletionEffects());
     });

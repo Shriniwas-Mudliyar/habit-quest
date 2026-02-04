@@ -19,7 +19,9 @@
     --ach-default-color: #333;
 }
 
-/* Dark Mode */
+/* =========================================================
+   Dark Mode
+   ========================================================= */
 body[data-theme="dark"] {
     --bg-main: #0f172a;
     --bg-card: #1e293b;
@@ -104,15 +106,28 @@ a:hover {
 }
 
 /* =========================================================
-   XP Progress Bar
+   XP Progress Bar (Dashboard & Habits)
    ========================================================= */
 .progress {
+    height: 1.15rem;
     border-radius: 1rem;
     overflow: hidden;
+    background-color: rgba(0,0,0,0.08);
 }
 
 .progress-bar {
     border-radius: 1rem;
+    font-weight: 600;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.6s ease;
+}
+
+/* Glow effect for dashboard XP */
+.progress-bar.bg-primary {
+    box-shadow: 0 0 10px rgba(13,110,253,0.6);
 }
 
 /* =========================================================
@@ -172,11 +187,6 @@ a:hover {
 .achievement-pill:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-/* Centering container */
-.d-flex.justify-content-center {
-    justify-content: center !important;
 }
 
 /* =========================================================
@@ -243,6 +253,26 @@ a:hover {
    ========================================================= */
 .text-muted {
     color: var(--text-muted) !important;
+}
+
+/* =========================================================
+   Daily Quote Animation
+   ========================================================= */
+.quote-animate {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeSlideIn 1s ease-out forwards;
+}
+
+@keyframes fadeSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* =========================================================

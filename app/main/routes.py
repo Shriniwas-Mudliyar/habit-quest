@@ -1,3 +1,4 @@
+# app/main/routes.py
 from flask import render_template, request
 from flask_login import login_required, current_user
 from . import main_bp
@@ -5,20 +6,34 @@ from app.models.habit import Habit
 from app.models.habit_completion import HabitCompletion
 from app.models.user_achievement import UserAchievement
 from datetime import date
+from .quotes import get_random_quote  # Import the function from quotes.py
 
+# =========================
+# HOME
+# =========================
 @main_bp.route("/")
 @login_required
 def home():
-    """Render the home page with current user info."""
-    return render_template("main/home.html", user=current_user)
+    """Render the home page with current user info and a daily rotating quote."""
+    # Select a quote based on the day for rotation
+    daily_index = date.today().toordinal() % 50  # Since we have 50 quotes
+    quote = get_random_quote()  # Alternatively, random selection
+
+    return render_template("main/home.html", current_user=current_user, quote=quote)
 
 
+# =========================
+# HEALTH CHECK
+# =========================
 @main_bp.route("/health")
 def health():
     """Simple health check endpoint."""
     return {"status": "ok"}
 
 
+# =========================
+# DASHBOARD
+# =========================
 @main_bp.route("/dashboard")
 @login_required
 def dashboard():
@@ -61,13 +76,16 @@ def dashboard():
     # -----------------------------
     return render_template(
         "main/dashboard.html",
-        user=current_user,
+        current_user=current_user,
         habits=habits,
         achievements=achievements,
         show_type=show_type
     )
 
 
+# =========================
+# FULL ACHIEVEMENTS PAGE
+# =========================
 @main_bp.route("/achievements")
 @login_required
 def view_achievements():

@@ -6,10 +6,19 @@
 <div class="container mt-5" style="max-width: 400px;">
 
     <div class="card shadow-sm p-4">
-        <h2 class="fw-bold text-primary mb-3 text-center">Register</h2>
+        <h2 class="fw-bold text-primary mb-3 text-center">Create your account</h2>
 
         <form method="POST">
             {{ form.hidden_tag() }}
+
+            <!-- Name Field -->
+            <div class="mb-3">
+                {{ form.display_name.label(class_="form-label") }}
+                {{ form.display_name(
+                    class_="form-control",
+                    placeholder="What should we call you?"
+                ) }}
+            </div>
 
             <!-- Email Field -->
             <div class="mb-3">
@@ -20,7 +29,7 @@
             <!-- Password Field -->
             <div class="mb-3">
                 {{ form.password.label(class_="form-label") }}
-                {{ form.password(class_="form-control", placeholder="Enter your password") }}
+                {{ form.password(class_="form-control", placeholder="Create a password") }}
             </div>
 
             <!-- Confirm Password Field -->

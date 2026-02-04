@@ -7,16 +7,45 @@
 
     <!-- Welcome Header -->
     <div class="card shadow-sm p-4 mb-4">
-        <h1 class="display-6 fw-bold text-primary mb-2">Welcome, {{ user.email }}!</h1>
-        <p class="mb-0">Level: <span class="fw-semibold">{{ user.level }}</span> | XP: <span class="fw-semibold">{{ user.xp }}</span></p>
+        <h1 class="display-6 fw-bold text-primary mb-2">
+            Welcome back, {{ current_user.display_name }} 👋
+        </h1>
+
+        <p class="mb-2">
+            Level <span class="fw-semibold">{{ current_user.level }}</span>
+            &mdash; XP <span class="fw-semibold">{{ current_user.total_xp }}</span>
+        </p>
+
+        <!-- Daily Quote with fade-in animation -->
+        <p class="text-muted mb-0 fst-italic quote-animate">
+            {{ quote }}
+        </p>
     </div>
 
-    <!-- Navigation Buttons -->
+    <!-- Primary Actions -->
     <div class="d-flex gap-2">
-        <a href="{{ url_for('main.dashboard') }}" class="btn btn-primary">Dashboard</a>
-        <a href="{{ url_for('auth.logout') }}" class="btn btn-warning">Logout</a>
+        <a href="{{ url_for('main.dashboard') }}" class="btn btn-primary">
+            View Dashboard
+        </a>
+        <a href="{{ url_for('auth.logout') }}" class="btn btn-warning">
+            Logout
+        </a>
     </div>
 
 </div>
+
+<!-- Optional JS for slight delay on quote fade-in -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const quote = document.querySelector(".quote-animate");
+    if (quote) {
+        quote.style.opacity = 0;
+        quote.style.transition = "opacity 1s ease-in-out";
+        setTimeout(() => {
+            quote.style.opacity = 1;
+        }, 300);
+    }
+});
+</script>
 {% endblock %}
 

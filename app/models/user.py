@@ -10,6 +10,10 @@ class User(UserMixin, db.Model):
     # Primary fields
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
+
+    # Human-friendly name (used for greetings & UI)
+    display_name = db.Column(db.String(50), nullable=False)
+
     password_hash = db.Column(db.String(255), nullable=False)
 
     # Gamification
@@ -73,5 +77,5 @@ class User(UserMixin, db.Model):
     # Representation
     # -------------------
     def __repr__(self):
-        return f"<User {self.email} | XP={self.total_xp} | Level={self.level}>"
+        return f"<User {self.display_name} ({self.email}) | XP={self.total_xp} | Level={self.level}>"
 
