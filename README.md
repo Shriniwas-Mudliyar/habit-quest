@@ -128,11 +128,80 @@ The application will be available at:
 
 * http://localhost (served via Nginx)
   
-### Database Initialization (First Run)
-On the first run, the database schema must be initialized manually.
-This mirrors how production systems bootstrap schema state and keeps migrations explicit.
+### Database Setup (First Run Only)
 
-In a separate terminal:
+On first run, the database schema must be initialized manually.
+
+This is a **one-time step per database volume** and applies to both:
+- local development
+- cloud deployments
+
+See **Database Initialization (First Deployment Only)** in the  
+[Cloud Deployment](#-cloud-deployment-aws-ec2) section for the full commands.
+
+---
+
+## ⚙️ Environment Configuration
+
+Application configuration is handled entirely via environment variables,
+following **12-factor app principles**.
+
+A sample configuration file is provided:
+
+```bash
+.env.example
+```
+Create your runtime configuration before starting the application:
+```bash
+cp .env.example .env
+```
+Required Variables
+
+DATABASE_URL – PostgreSQL connection string
+
+SECRET_KEY – Flask secret key
+
+FLASK_ENV – Application environment (development / production)
+
+No secrets are hardcoded in the application or committed to the repository.
+
+---
+
+## 📦 Database
+
+* PostgreSQL 16
+* Persistent volume for data
+* Relational schema with foreign keys
+
+Seed data can be loaded for demo/testing purposes.
+
+---
+
+## ☁️ Cloud Deployment (AWS EC2)
+Habit Quest is deployed and running on an AWS EC2 instance using a production-style, containerized architecture.
+
+The EC2 instance is used strictly as a container host, with all application concerns (web server, WSGI server, database) handled inside Docker containers. This mirrors how modern cloud workloads are typically deployed.
+
+### ▶️ Deploying on EC2
+Clone the repository on the EC2 instance:
+```bash
+git clone https://github.com/Shriniwas-Mudliyar/habit-quest.git
+cd habit-quest
+```
+Configure environment variables:
+```bash
+cp .env.example .env
+```
+Start the application:
+```bash
+docker-compose up -d --build
+```
+Nginx exposes the application publicly and routes traffic internally to Gunicorn and Flask.
+
+## 🗄 Database Initialization (First Deployment Only)
+On a fresh EC2 instance or new database volume, the database schema must be initialized manually.
+
+This step is required only once per database volume.
 ```bash
 docker-compose exec web bash
 
@@ -144,35 +213,17 @@ flask db init
 flask db migrate -m "baseline schema"
 flask db upgrade
 ```
-This is a one-time setup step required when running the project for the first time
-or after resetting the database volume.
+Once completed, database state is persisted via Docker volumes and does not need to be repeated on restarts or redeployments.
 
-### Stopping the Application
+### 🔄 Operational Notes
 
-```bash
-docker-compose down
-```
----
+Application restarts do not affect persisted data
 
-## ⚙️ Environment Configuration
+Containers can be safely restarted or rebuilt
 
-Configuration is handled via environment variables:
+All runtime behavior is controlled via environment variables
 
-* `DATABASE_URL`
-* `SECRET_KEY`
-* `FLASK_ENV`
-
-No secrets are hardcoded in the application.
-
----
-
-## 📦 Database
-
-* PostgreSQL 16
-* Persistent volume for data
-* Relational schema with foreign keys
-
-Seed data can be loaded for demo/testing purposes.
+The setup is ready for future CI/CD automation
 
 ---
 
@@ -189,16 +240,6 @@ Planned additions:
 
 ---
 
-## ☁️ Cloud Deployment (Planned)
-
-Target environment:
-
-* AWS EC2
-* Docker-based deployment
-* Nginx as public entry point
-
----
-
 ## 🧠 Key Takeaway
 
 Habit Quest demonstrates how to:
@@ -208,5 +249,6 @@ Habit Quest demonstrates how to:
 * Combine backend logic with infrastructure fundamentals
 
 This repository is intentionally built as a **cloud-ready portfolio project**, not just a feature demo.
+
 
 
