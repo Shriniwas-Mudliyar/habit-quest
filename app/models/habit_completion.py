@@ -5,8 +5,17 @@ class HabitCompletion(db.Model):
     __tablename__ = "habit_completion"
 
     id = db.Column(db.Integer, primary_key=True)
-    habit_id = db.Column(db.Integer, db.ForeignKey('habit.id', ondelete='CASCADE'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    habit_id = db.Column(
+        db.Integer,
+        db.ForeignKey('habit.id', ondelete='CASCADE'),
+        nullable=False
+    )
+    # Updated ForeignKey to point to app_user.id
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('app_user.id', ondelete='CASCADE'),
+        nullable=False
+    )
     date = db.Column(db.Date, default=date.today, nullable=False)
 
     # Relationships

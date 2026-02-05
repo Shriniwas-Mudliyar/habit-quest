@@ -6,7 +6,7 @@ class UserAchievement(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(
-        db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False
+        db.Integer, db.ForeignKey("app_user.id", ondelete="CASCADE"), nullable=False
     )
     achievement_id = db.Column(
         db.Integer, db.ForeignKey("achievement.id", ondelete="CASCADE"), nullable=False

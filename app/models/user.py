@@ -5,15 +5,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class User(UserMixin, db.Model):
-    __tablename__ = "user"
+    __tablename__ = "app_user"  # Explicit table name
 
     # Primary fields
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
-
-    # Human-friendly name (used for greetings & UI)
     display_name = db.Column(db.String(50), nullable=False)
-
     password_hash = db.Column(db.String(255), nullable=False)
 
     # Gamification
@@ -59,18 +56,12 @@ class User(UserMixin, db.Model):
     # XP & Level helpers
     # -------------------
     def add_xp(self, amount: int):
-        """
-        Adds XP to the user and updates the level.
-        :param amount: XP points to add
-        """
+        """Adds XP to the user and updates the level."""
         self.total_xp = (self.total_xp or 0) + amount
         self.update_level()
 
     def update_level(self):
-        """
-        Updates the user's level.
-        Level increases by 1 every 100 XP.
-        """
+        """Updates the user's level. Level increases by 1 every 100 XP."""
         self.level = (self.total_xp // 100) + 1
 
     # -------------------

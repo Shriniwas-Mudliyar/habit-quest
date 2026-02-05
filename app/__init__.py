@@ -1,10 +1,16 @@
 from flask import Flask
+import os
 from .config import Config
 from .extensions import db, migrate, login_manager
 
 def create_app():
     app = Flask(__name__)
+
+    # Load default config
     app.config.from_object(Config)
+
+    # Override SECRET_KEY from environment if available
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', app.config.get('SECRET_KEY', 'dev_key_change_this'))
 
     # Initialize extensions
     db.init_app(app)

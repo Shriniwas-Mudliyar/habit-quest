@@ -1,0 +1,24 @@
+# Python cache
+__pycache__
+*.pyc
+*.pyo
+
+# Virtual environment
+venv
+.env
+
+# Git
+.git
+.gitignore
+
+# Database backups
+db_backups
+
+# Migrations cache
+migrations/__pycache__
+
+# IDE / OS files
+*.swp
+*.swo
+.DS_Store
+

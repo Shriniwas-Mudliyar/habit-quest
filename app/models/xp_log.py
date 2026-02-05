@@ -5,8 +5,9 @@ class XpLog(db.Model):
     __tablename__ = "xp_log"
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-    habit_id = db.Column(db.Integer, db.ForeignKey("habit.id"), nullable=True)
+    # Updated ForeignKey to point to app_user.id
+    user_id = db.Column(db.Integer, db.ForeignKey("app_user.id", ondelete="CASCADE"), nullable=False)
+    habit_id = db.Column(db.Integer, db.ForeignKey("habit.id", ondelete="CASCADE"), nullable=True)
     xp_amount = db.Column(db.Integer, nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
