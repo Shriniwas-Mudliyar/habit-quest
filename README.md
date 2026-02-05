@@ -111,20 +111,47 @@ keeping the frontend lightweight while remaining production-friendly and easy to
 * Docker
 * Docker Compose
 
-### Steps
+### Setup
 
 ```bash
-git clone https://github.com/<your-username>/habit-quest.git
+git clone https://github.com/Shriniwas-Mudliyar/habit-quest.git
 cd habit-quest
 cp .env.example .env
+```
+### Start the Application
 
+```bash
 docker-compose up --build
 ```
 
-Access the app:
+The application will be available at:
 
-* [http://localhost](http://localhost) (via Nginx)
+* http://localhost (served via Nginx)
+  
+### Database Initialization (First Run)
+On the first run, the database schema must be initialized manually.
+This mirrors how production systems bootstrap schema state and keeps migrations explicit.
 
+In a separate terminal:
+```bash
+docker-compose exec web bash
+
+export FLASK_APP=app
+export FLASK_ENV=development
+
+rm -rf migrations
+flask db init
+flask db migrate -m "baseline schema"
+flask db upgrade
+```
+This is a one-time setup step required when running the project for the first time
+or after resetting the database volume.
+
+### Stopping the Application
+
+```bash
+docker-compose down
+```
 ---
 
 ## ⚙️ Environment Configuration
@@ -181,4 +208,5 @@ Habit Quest demonstrates how to:
 * Combine backend logic with infrastructure fundamentals
 
 This repository is intentionally built as a **cloud-ready portfolio project**, not just a feature demo.
+
 
