@@ -136,8 +136,10 @@ This is a **one-time step per database volume** and applies to both:
 - local development
 - cloud deployments
 
-See **Database Initialization (First Deployment Only)** in the  
-[Cloud Deployment](#-cloud-deployment-aws-ec2) section for the full commands.
+See  
+[Database Initialization (First Deployment Only)](#-database-initialization-first-deployment-only)  
+in the Cloud Deployment section for the full commands.
+
 
 ---
 
@@ -150,10 +152,6 @@ A sample configuration file is provided:
 
 ```bash
 .env.example
-```
-Create your runtime configuration before starting the application:
-```bash
-cp .env.example .env
 ```
 Required Variables
 
@@ -198,7 +196,7 @@ docker-compose up -d --build
 ```
 Nginx exposes the application publicly and routes traffic internally to Gunicorn and Flask.
 
-## 🗄 Database Initialization (First Deployment Only)
+### 🗄 Database Initialization (First Deployment Only)
 On a fresh EC2 instance or new database volume, the database schema must be initialized manually.
 
 This step is required only once per database volume.
@@ -249,6 +247,7 @@ Habit Quest demonstrates how to:
 * Combine backend logic with infrastructure fundamentals
 
 This repository is intentionally built as a **cloud-ready portfolio project**, not just a feature demo.
+
 
 
 
