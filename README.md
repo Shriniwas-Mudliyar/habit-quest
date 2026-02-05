@@ -98,9 +98,8 @@ keeping the frontend lightweight while remaining production-friendly and easy to
 ### Achievements Page
 ![Achievements](screenshots/achievements.png)
 
-### Authentication (Login & Register)
+### Authentication
 ![Login](screenshots/login.png)
-![Register](screenshots/register.png)
 
 ---
 
@@ -247,6 +246,7 @@ Habit Quest demonstrates how to:
 * Combine backend logic with infrastructure fundamentals
 
 This repository is intentionally built as a **cloud-ready portfolio project**, not just a feature demo.
+
 
 
 
