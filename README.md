@@ -82,12 +82,25 @@ All services are orchestrated using **Docker Compose**.
 
 ## 🖼 Application Screenshots
 
-Pages:
+The UI is fully responsive, supports dark mode, and is rendered using server-side templates (Jinja),
+keeping the frontend lightweight while remaining production-friendly and easy to deploy.
 
-* Dashboard (home)
-* Habits
-* Achievements
-* Login / Register
+
+### Dashboard (Light Mode)
+![Dashboard Light](screenshots/dashboard-light.png)
+
+### Dashboard (Dark Mode)
+![Dashboard Dark](screenshots/dashboard-dark.png)
+
+### Habits Page
+![Habits](screenshots/habits.png)
+
+### Achievements Page
+![Achievements](screenshots/achievements.png)
+
+### Authentication (Login & Register)
+![Login](screenshots/login.png)
+![Register](screenshots/register.png)
 
 ---
 
@@ -168,3 +181,4 @@ Habit Quest demonstrates how to:
 * Combine backend logic with infrastructure fundamentals
 
 This repository is intentionally built as a **cloud-ready portfolio project**, not just a feature demo.
+
