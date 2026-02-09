@@ -242,18 +242,31 @@ All runtime behavior is controlled via environment variables
 
 The setup is ready for future CI/CD automation
 
+### 🧯 Infrastructure Lifecycle Note
+
+The EC2 instance used for deployment is intentionally terminated when not in use to avoid unnecessary cloud costs.
+
+The CI/CD pipeline remains fully functional, and deployment can be re-enabled at any time by launching a new EC2 instance and manually triggering the GitHub Actions deployment workflow.
+
+
 ---
 
-## 🔄 CI/CD (Implemented)
+## 🔄 CI/CD (GitHub Actions)
 
-This project uses **GitHub Actions** to automate deployment to AWS EC2.
+This project includes a GitHub Actions–based CI/CD pipeline
 
-### Workflow Overview
-- Triggered on push to the `main` branch
-- Uses SSH-based authentication with the EC2 instance
-- Pulls the latest code on the server
-- Rebuilds Docker images
-- Restarts services via Docker Compose
+### Continuous Integration (CI)
+- Triggered automatically on every push to `main`
+- Builds the Docker image to validate the application and Docker configuration
+- Ensures the project remains deployable at all times
+
+### Continuous Deployment (CD)
+- Deployment to AWS EC2 is **manual**
+- Triggered via `workflow_dispatch` in GitHub Actions
+- Prevents failed deployments when the EC2 instance is intentionally stopped or terminated
+
+This approach reflects real-world DevOps practices where deployment is often a controlled action rather than automatic on every commit.
+
 
 ### Why This Matters
 - No manual SSH deployments

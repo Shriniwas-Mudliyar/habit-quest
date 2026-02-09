@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   deploy:
+    if: github.event_name == 'workflow_dispatch'
     name: Deploy Habit Quest to EC2
     runs-on: ubuntu-latest
 
