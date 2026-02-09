@@ -17,7 +17,7 @@ This project was built to showcase skills relevant to **Cloud / DevOps / Platfor
 * Orchestrating services with **Docker Compose**
 * Managing **environment-based configuration**
 * Working with **stateful services (PostgreSQL)**
-* Preparing the app for **CI/CD and EC2-style deployments**
+* Implementing CI/CD with GitHub Actions for automated EC2 deployment
 
 This is not a tutorial app — it is structured like a **real deployable service**.
 
@@ -36,6 +36,20 @@ Flask Application
    ↓
 PostgreSQL Database
 ```
+### Deployment & Automation Flow
+
+```
+Developer Push (GitHub)
+↓
+GitHub Actions (CI/CD)
+↓
+Secure SSH to EC2
+↓
+Docker Compose Build & Restart
+↓
+Live Application Update
+```
+
 
 **Key architectural decisions:**
 
@@ -175,11 +189,15 @@ Seed data can be loaded for demo/testing purposes.
 ---
 
 ## ☁️ Cloud Deployment (AWS EC2)
+Habit Quest is deployed on AWS EC2 using an automated CI/CD pipeline powered by GitHub Actions.
+
+Any push to the `main` branch triggers a workflow that securely connects to the EC2 instance, pulls the latest code, rebuilds Docker images, and restarts services using Docker Compose — enabling zero-manual deployment after initial setup.
+
 Habit Quest is deployed and running on an AWS EC2 instance using a production-style, containerized architecture.
 
 The EC2 instance is used strictly as a container host, with all application concerns (web server, WSGI server, database) handled inside Docker containers. This mirrors how modern cloud workloads are typically deployed.
 
-### ▶️ Deploying on EC2
+### ▶️ Initial EC2 Setup (One-Time)
 Clone the repository on the EC2 instance:
 ```bash
 git clone https://github.com/Shriniwas-Mudliyar/habit-quest.git
@@ -193,6 +211,8 @@ Start the application:
 ```bash
 docker-compose up -d --build
 ```
+After this initial setup, all future deployments are handled automatically via GitHub Actions.
+
 Nginx exposes the application publicly and routes traffic internally to Gunicorn and Flask.
 
 ### 🗄 Database Initialization (First Deployment Only)
@@ -224,16 +244,23 @@ The setup is ready for future CI/CD automation
 
 ---
 
-## 🔄 CI/CD (Planned)
+## 🔄 CI/CD (Implemented)
 
-The project is designed to support CI/CD and cloud deployment.
+This project uses **GitHub Actions** to automate deployment to AWS EC2.
 
-Planned additions:
+### Workflow Overview
+- Triggered on push to the `main` branch
+- Uses SSH-based authentication with the EC2 instance
+- Pulls the latest code on the server
+- Rebuilds Docker images
+- Restarts services via Docker Compose
 
-* GitHub Actions CI
-* Docker image build & validation
-* EC2 deployment workflow
-* Nginx + Gunicorn production tuning
+### Why This Matters
+- No manual SSH deployments
+- Consistent, repeatable releases
+- Production-style DevOps workflow
+- Mirrors real-world CI/CD pipelines used in cloud teams
+
 
 ---
 
@@ -241,11 +268,13 @@ Planned additions:
 
 Habit Quest demonstrates how to:
 
-* Take a Flask app **from local development to production-style deployment**
-* Structure a project with **real DevOps constraints in mind**
-* Combine backend logic with infrastructure fundamentals
+This repository demonstrates how to take a Flask application
+from local development to a **production-style, cloud-deployed system**
+with containerization, reverse proxying, persistent data, and automated CI/CD.
 
-This repository is intentionally built as a **cloud-ready portfolio project**, not just a feature demo.
+It is intentionally built as a **realistic DevOps portfolio project**, not a tutorial or demo app.
+
+
 
 
 
