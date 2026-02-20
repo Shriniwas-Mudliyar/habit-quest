@@ -2,16 +2,32 @@
 
 echo "Waiting for PostgreSQL..."
 
-# Wait until Postgres is ready
+# Wait for Postgres to be ready
 while ! nc -z db 5432; do
   sleep 1
 done
 
 echo "PostgreSQL started"
 
-echo "Running migrations..."
+# Check if migrations folder exists
+if [ -d "migrations" ]; then
 
-flask db upgrade
+  echo "Migrations folder found"
+  echo "Running flask db upgrade..."
+
+  flask db upgrade
+
+else
+
+  echo "No migrations folder found"
+  echo "Creating database tables using db.create_all()..."
+
+  flask shell <<EOF
+from app import db
+db.create_all()
+EOF
+
+fi
 
 echo "Starting Gunicorn..."
 
