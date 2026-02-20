@@ -134,25 +134,24 @@ cp .env.example .env
 ### Start the Application
 
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
 The application will be available at:
 
 * http://localhost (served via Nginx)
   
-### Database Setup (First Run Only)
+### Database Setup
 
-On first run, the database schema must be initialized manually.
+Database migrations run automatically when the application starts.
 
-This is a **one-time step per database volume** and applies to both:
-- local development
-- cloud deployments
+The container entrypoint waits for PostgreSQL to become available and executes:
 
-See  
-[Database Initialization (First Deployment Only)](#-database-initialization-first-deployment-only)  
-in the Cloud Deployment section for the full commands.
+flask db upgrade
 
+This ensures the database schema is always up to date without requiring any manual intervention.
+
+This approach mirrors production deployment practices where services self-initialize during startup.
 
 ---
 
@@ -209,28 +208,23 @@ cp .env.example .env
 ```
 Start the application:
 ```bash
-docker-compose up -d --build
+docker compose up -d --build
 ```
 After this initial setup, all future deployments are handled automatically via GitHub Actions.
 
 Nginx exposes the application publicly and routes traffic internally to Gunicorn and Flask.
 
-### 🗄 Database Initialization (First Deployment Only)
-On a fresh EC2 instance or new database volume, the database schema must be initialized manually.
+### 🗄 Database Initialization
 
-This step is required only once per database volume.
-```bash
-docker-compose exec web bash
+Database migrations are applied automatically during container startup using Flask-Migrate.
 
-export FLASK_APP=app
-export FLASK_ENV=development
+This ensures:
 
-rm -rf migrations
-flask db init
-flask db migrate -m "baseline schema"
-flask db upgrade
-```
-Once completed, database state is persisted via Docker volumes and does not need to be repeated on restarts or redeployments.
+• consistent schema across environments  
+• zero manual setup on new deployments  
+• production-safe initialization  
+
+Persistent Docker volumes ensure data is retained across restarts and redeployments.
 
 ### 🔄 Operational Notes
 
@@ -286,6 +280,7 @@ from local development to a **production-style, cloud-deployed system**
 with containerization, reverse proxying, persistent data, and automated CI/CD.
 
 It is intentionally built as a **realistic DevOps portfolio project**, not a tutorial or demo app.
+
 
 
 
