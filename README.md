@@ -36,26 +36,18 @@ Flask Application
    ↓
 PostgreSQL Database
 ```
-### ⚡DevOps Highlights
+### ⚡ DevOps Highlights
 
-- This project demonstrates real-world DevOps practices:
+This project demonstrates real-world DevOps practices:
 
 - Containerized multi-service architecture
-
 - Reverse proxy setup using Nginx
-
 - Production-ready Gunicorn configuration
-
 - Automated database migrations during startup
-
 - Environment-based configuration management
-
 - Persistent storage using Docker volumes
-
 - CI/CD pipeline using GitHub Actions
-
 - Cloud deployment on AWS EC2
-
 - Stateless application design with externalized state
 
 ### Deployment & Automation Flow
@@ -169,8 +161,9 @@ Database migrations run automatically when the application starts.
 
 The container entrypoint waits for PostgreSQL to become available and executes:
 
+```
 flask db upgrade
-
+```
 This ensures the database schema is always up to date without requiring any manual intervention.
 
 This approach mirrors production deployment practices where services self-initialize during startup.
@@ -212,7 +205,9 @@ Seed data can be loaded for demo/testing purposes.
 ## ☁️ Cloud Deployment (AWS EC2)
 Habit Quest is deployed on AWS EC2 using an automated CI/CD pipeline powered by GitHub Actions.
 
-Any push to the `main` branch triggers a workflow that securely connects to the EC2 instance, pulls the latest code, rebuilds Docker images, and restarts services using Docker Compose — enabling zero-manual deployment after initial setup.
+GitHub Actions is used to automate deployment to the EC2 instance.
+
+The workflow securely connects via SSH, pulls the latest code, rebuilds Docker images, and restarts services using Docker Compose.
 
 Habit Quest is deployed and running on an AWS EC2 instance using a production-style, containerized architecture.
 
@@ -256,7 +251,7 @@ Containers can be safely restarted or rebuilt
 
 All runtime behavior is controlled via environment variables
 
-The setup is ready for future CI/CD automation
+The setup supports automated and repeatable deployments using CI/CD
 
 ### 🧯 Infrastructure Lifecycle Note
 
@@ -306,6 +301,7 @@ Habit Quest demonstrates the complete lifecycle of a modern cloud-deployed appli
 • Cloud deployment on AWS EC2  
 
 This project reflects how real production systems are built, deployed, and managed.
+
 
 
 
