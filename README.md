@@ -36,6 +36,28 @@ Flask Application
    ↓
 PostgreSQL Database
 ```
+### ⚡DevOps Highlights
+
+- This project demonstrates real-world DevOps practices:
+
+- Containerized multi-service architecture
+
+- Reverse proxy setup using Nginx
+
+- Production-ready Gunicorn configuration
+
+- Automated database migrations during startup
+
+- Environment-based configuration management
+
+- Persistent storage using Docker volumes
+
+- CI/CD pipeline using GitHub Actions
+
+- Cloud deployment on AWS EC2
+
+- Stateless application design with externalized state
+
 ### Deployment & Automation Flow
 
 ```
@@ -273,13 +295,17 @@ This approach reflects real-world DevOps practices where deployment is often a c
 
 ## 🧠 Key Takeaway
 
-Habit Quest demonstrates how to:
+Habit Quest demonstrates the complete lifecycle of a modern cloud-deployed application:
 
-This repository demonstrates how to take a Flask application
-from local development to a **production-style, cloud-deployed system**
-with containerization, reverse proxying, persistent data, and automated CI/CD.
+• Application development using Flask  
+• Containerization using Docker  
+• Service orchestration using Docker Compose  
+• Production-grade serving using Gunicorn and Nginx  
+• Persistent database management using PostgreSQL  
+• Automated CI/CD using GitHub Actions  
+• Cloud deployment on AWS EC2  
 
-It is intentionally built as a **realistic DevOps portfolio project**, not a tutorial or demo app.
+This project reflects how real production systems are built, deployed, and managed.
 
 
 
